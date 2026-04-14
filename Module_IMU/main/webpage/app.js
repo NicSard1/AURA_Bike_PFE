@@ -67,38 +67,27 @@ function uid() {
 function makeDefaultProfile() {
   return {
     userId: uid(),
-    name: "Sandric Bretécher",
-    email: "sandric.bretecher@esme.fr",
-    phone: "+33 7 81 09 83 88",
-    address: "4 rue des Vallées, 94160 Saint-Mandés",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
     createdAt: Date.now(),
     savedPlaces: {
       home: {
         label: "Domicile",
-        address: "4 rue des Vallées, 94160 Saint-Mandés"
+        address: ""
       },
       work: {
         label: "Bureau",
-        address: "20 Rue Bouvier, 75011 Paris"
+        address: ""
       },
-      favorites: [
-        {
-          id: uid(),
-          label: "ESME",
-          address: "38 Rue Molière, 94200 Ivry-sur-Seine"
-        },
-        {
-          id: uid(),
-          label: "Chez les parents",
-          address: "43 rue du Rocher, 44430 Le Loroux-Bottereau"
-        }
-      ]
+      favorites: []
     },
     totals: {
-      distanceKm: 842.5,
-      durationSec: 132000,
-      avgSpeedKmh: 21.4,
-      maxSpeedKmh: 36.7
+      distanceKm: 0,
+      durationSec: 0,
+      avgSpeedKmh: 0,
+      maxSpeedKmh: 0
     }
   };
 }
