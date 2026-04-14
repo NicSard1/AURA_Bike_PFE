@@ -228,4 +228,4 @@ Academic project — usage may be restricted.
 
 ## ⭐ Project Context
 
-Final-year engineering project in **Embedded Systems & Intelligent Transport**.
+Final-year engineering project at **ESME** in **Embedded Systems & Intelligent Transport**.
