@@ -84,25 +84,25 @@ Multi-node architecture allows load distribution and real-time processing.
 
 ### Functional Prototype
 <p align="center">
-  <img src="images/prototype_full_setup.jpg" alt="AURA Bike full prototype" width="700"/>
+  <img src="images/prototype_full_setup.jpeg" alt="AURA Bike full prototype" width="700"/>
 </p>
 
 ### Smart Handlebar
 <p align="center">
-  <img src="images/handlebar_front.jpg" alt="AURA Bike smart handlebar front view" width="700"/>
+  <img src="images/handlebar_front.jpeg" alt="AURA Bike smart handlebar front view" width="700"/>
 </p>
 
 <p align="center">
-  <img src="images/handlebar_front_studio.jpg" alt="AURA Bike smart handlebar studio front view" width="700"/>
+  <img src="images/handlebar_front_studio.jpeg" alt="AURA Bike smart handlebar studio front view" width="700"/>
 </p>
 
 <p align="center">
-  <img src="images/handlebar_top.jpg" alt="AURA Bike smart handlebar top view" width="700"/>
+  <img src="images/handlebar_top.jpeg" alt="AURA Bike smart handlebar top view" width="700"/>
 </p>
 
 ### Rear Perception Module
 <p align="center">
-  <img src="images/rear_module.jpg" alt="AURA Bike rear perception module" width="350"/>
+  <img src="images/rear_camera_lidar.jpeg" alt="AURA Bike rear perception module" width="350"/>
 </p>
 
 ### Mobile Application
