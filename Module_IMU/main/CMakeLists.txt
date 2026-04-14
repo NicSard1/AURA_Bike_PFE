@@ -1,0 +1,49 @@
+idf_component_register(
+    SRCS
+        "app_nvs.c"
+        "aws_mqtt.c"
+        "http_server.c"
+        "sntp_time_sync.c"
+        "wifi_app.c"
+        "wifi_reset_button.c"
+        "lcd_lvgl.c"
+        "gnss_link.c"
+        "gy86.c"
+        "bike_data.c"
+        "main.c"
+
+    INCLUDE_DIRS
+        "."
+
+    REQUIRES
+        app_update
+        esp_http_server
+        esp_wifi
+        esp_netif
+        nvs_flash
+        esp_timer
+        lwip
+        mqtt
+        bt
+        driver
+        esp_event
+        esp_system
+
+    EMBED_TXTFILES
+        "webpage/index.html"
+        "webpage/app.css"
+        "webpage/app.js"
+        "webpage/api.js"
+        "webpage/ble.js"
+        "webpage/jquery-3.3.1.min.js"
+        "webpage/kml_gpx.js"
+        "webpage/maps.js"
+        "webpage/route.js"
+        "webpage/storage.js"
+
+    EMBED_FILES
+        "webpage/favicon.ico"
+        "certs/AmazonRootCA1.pem"
+        "certs/certificate.pem.crt"
+        "certs/public.pem.key"
+)

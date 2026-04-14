@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#fc4c02">
+
+  <link rel="icon" href="AURA_Bike-icon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="app.css">
+
+  <title>AURA Bike • App</title>
+
+  <!-- Google Maps JS API bootstrap loader -->
+  <script>
+    (g => {
+      var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+      b = b[c] || (b[c] = {});
+      var d = b.maps || (b.maps = {}), r = new Set(), e = new URLSearchParams(),
+        u = () => h || (h = new Promise(async (f, n) => {
+          a = m.createElement("script");
+          e.set("libraries", [...r] + "");
+          for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+          e.set("callback", c + ".maps." + q);
+          a.src = `https://maps.${c}apis.com/maps/api/js?` + e.toString();
+          d[q] = f;
+          a.onerror = () => n(Error(p + " could not load."));
+          a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+          m.head.append(a);
+        }));
+      if (d[l]) {
+        console.warn(p + " only loads once. Ignoring:", g);
+      } else {
+        d[l] = (f, ...n) => (r.add(f), u().then(() => d[l](f, ...n)));
+      }
+    })({
+      key: "AIzaSyAcIFRXKn9gWlmi5hs141RyC1_mqMlf-Fw",
+      v: "weekly",
+      language: "fr",
+      region: "FR"
+    });
+  </script>
+
+  <!-- Scripts -->
+  <script defer src="ble.js"></script>
+  <script defer src="maps.js"></script>
+  <script defer src="app.js"></script>
+</head>
+
+<body class="strava-theme">
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <div class="title">AURA Bike</div>
+          <div class="subtitle">Cintre connecté • Navigation • Activités</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="chip" id="btn_sync" type="button" title="Synchroniser">⟲</button>
+        <button class="chip" id="btn_settings" type="button" title="Paramètres">⚙️</button>
+      </div>
+    </header>
+
+    <main class="views">
+
+      <!-- DASHBOARD -->
+      <section class="view is-active" id="view_dashboard" aria-label="Accueil">
+        <section class="grid">
+
+          <div class="card hero">
+            <div class="hero-left">
+              <div class="hero-kicker">
+                <span class="dot" id="ble_dot"></span>
+                <span id="ble_text">BLE • Déconnecté</span>
+              </div>
+
+              <div class="hero-temp">
+                <span id="speed_big">--</span><span class="unit">km/h</span>
+              </div>
+
+              <div class="hero-meta">
+                <div class="meta">
+                  <div class="meta-label">Distance totale</div>
+                  <div class="meta-value"><span id="total_distance">--</span> km</div>
+                </div>
+                <div class="meta">
+                  <div class="meta-label">Vitesse max</div>
+                  <div class="meta-value"><span id="max_speed">--</span> km/h</div>
+                </div>
+              </div>
+
+              <div class="status" id="dash_status">Status : prêt</div>
+              <div class="small" id="dash_last_update">Dernière mise à jour : --</div>
+            </div>
+
+            <div class="hero-right">
+              <div class="icon" id="dash_icon">🚴</div>
+
+              <div class="gauges">
+                <div class="mini">
+                  <div class="pill">
+                    <span class="pill-ico">⏱️</span>
+                    <span class="pill-label">Durée totale</span>
+                    <span class="pill-val" id="total_time">--</span>
+                  </div>
+                  <div class="pill">
+                    <span class="pill-ico">📈</span>
+                    <span class="pill-label">Vitesse moy.</span>
+                    <span class="pill-val" id="avg_speed">--</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Actions rapides</span>
+              <span class="tag" id="device_tag">Device : —</span>
+            </div>
+
+            <div class="controls">
+              <button class="btn" id="btn_ble_connect" type="button"><span>Se connecter (BLE)</span></button>
+              <button class="btn ghost" id="btn_ble_disconnect" type="button"><span>Déconnecter</span></button>
+              <button class="btn ghost" id="btn_go_nav" type="button"><span>Envoyer une destination</span></button>
+            </div>
+
+            <div class="hint" style="margin-top:10px;">Destinations rapides</div>
+            <div class="controls" id="quick_destinations" style="margin-top:10px;"></div>
+
+            <div class="status" id="ble_status">BLE : --</div>
+          </div>
+
+        </section>
+      </section>
+
+      <!-- NAVIGATION -->
+      <section class="view" id="view_navigation" aria-label="Navigation">
+        <section class="grid">
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Navigation Google Maps</span>
+              <span class="tag" id="gmap_status">Carte : en attente</span>
+            </div>
+
+            <div class="profile-form" style="margin-top:12px;">
+              <div class="field nav-field-with-quick">
+                <label for="origin_input">Départ</label>
+                <input id="origin_input" class="gmaps-input" type="text" placeholder="Ex : Ma position">
+                <div id="origin_quick_pick" class="quick-pick" hidden>📍 Ma position actuelle</div>
+                <div class="small" id="origin_summary">Aucun départ sélectionné</div>
+              </div>
+
+              <div class="field nav-field-with-quick">
+                <label for="destination_input">Destination</label>
+                <input id="destination_input" class="gmaps-input" type="text"
+                  placeholder="Ex : ESME Sudria, Ivry-sur-Seine">
+                <div id="destination_quick_pick" class="quick-pick" hidden>📍 Ma position actuelle</div>
+                <div class="small" id="destination_summary">Aucune destination sélectionnée</div>
+              </div>
+            </div>
+
+            <div class="controls" style="margin-top:12px;">
+              <button class="btn" id="btn_calc_route" type="button"><span>Calculer l’itinéraire</span></button>
+              <button class="btn ghost" id="btn_clear_google_route" type="button"><span>Effacer</span></button>
+              <button class="btn" id="btn_send_google_route" type="button"><span>Envoyer au cintre</span></button>
+            </div>
+
+            <div class="api-kpis" style="margin-top:14px;">
+              <div class="kpi">
+                <div class="kpi-label">Distance</div>
+                <div class="kpi-val"><span id="gmaps_distance">--</span></div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Durée</div>
+                <div class="kpi-val"><span id="gmaps_duration">--</span></div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Mode</div>
+                <div class="kpi-val">Vélo</div>
+              </div>
+            </div>
+
+            <div id="map"
+              style="width:100%; height:380px; margin-top:14px; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.08);">
+            </div>
+
+            <div class="status" id="gmaps_route_status">Status : --</div>
+          </div>
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Dernière destination</span>
+              <span class="tag" id="last_route_time">—</span>
+            </div>
+
+            <div class="api-weather">
+              <div class="api-big">
+                <div class="api-ico" id="last_route_icon">📍</div>
+                <div class="api-main">
+                  <div class="api-temp" style="font-size:22px;">
+                    <span id="last_route_name">Aucune</span>
+                  </div>
+                  <div class="small" id="last_route_meta">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </section>
+
+      <!-- HISTORY -->
+      <section class="view" id="view_history" aria-label="Activités">
+        <section class="grid">
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Historique des trajets</span>
+              <span class="tag" id="trips_count">0</span>
+            </div>
+
+            <div id="trips_list" class="trips-list" aria-live="polite"></div>
+
+            <div class="controls" style="margin-top:10px;">
+              <button class="btn ghost" id="btn_export_trips" type="button"><span>Exporter (JSON)</span></button>
+              <button class="btn ghost" id="btn_clear_trips" type="button"><span>Supprimer tout</span></button>
+            </div>
+
+            <div class="status" id="history_status">Status : --</div>
+          </div>
+        </section>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="view" id="view_profile" aria-label="Compte">
+        <section class="grid">
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Profil utilisateur</span>
+              <span class="tag" id="profile_tag">Local</span>
+            </div>
+
+            <div class="profile-form">
+              <div class="field">
+                <label for="p_name">Prénom</label>
+                <input id="p_name" type="text" autocomplete="name">
+              </div>
+
+              <div class="field">
+                <label for="p_email">Email</label>
+                <input id="p_email" type="email" autocomplete="email">
+              </div>
+
+              <div class="field">
+                <label for="p_phone">Téléphone</label>
+                <input id="p_phone" type="tel" placeholder="+33 ..." autocomplete="tel">
+              </div>
+
+              <div class="field">
+                <label for="p_home">Domicile</label>
+                <input id="p_home" type="text">
+              </div>
+
+              <div class="field">
+                <label for="p_work">Bureau</label>
+                <input id="p_work" type="text">
+              </div>
+
+              <div class="field">
+                <label for="p_fav1_label">Favori 1 - nom</label>
+                <input id="p_fav1_label" type="text">
+              </div>
+              <div class="field">
+                <label for="p_fav1_address">Favori 1 - adresse</label>
+                <input id="p_fav1_address" type="text">
+              </div>
+
+              <div class="field">
+                <label for="p_fav2_label">Favori 2 - nom</label>
+                <input id="p_fav2_label" type="text">
+              </div>
+              <div class="field">
+                <label for="p_fav2_address">Favori 2 - adresse</label>
+                <input id="p_fav2_address" type="text">
+              </div>
+
+              <div class="field">
+                <label for="p_fav3_label">Favori 3 - nom</label>
+                <input id="p_fav3_label" type="text">
+              </div>
+              <div class="field">
+                <label for="p_fav3_address">Favori 3 - adresse</label>
+                <input id="p_fav3_address" type="text">
+              </div>
+
+              <div class="controls" style="margin-top:10px;">
+                <button class="btn" id="btn_save_profile" type="button"><span>Enregistrer</span></button>
+                <button class="btn ghost" id="btn_reset_profile" type="button"><span>Réinitialiser</span></button>
+              </div>
+
+              <div class="small" id="profile_info">—</div>
+            </div>
+          </div>
+
+          <div class="card" style="grid-column: 1 / -1;">
+            <div class="card-title">
+              <span>Stats profil</span>
+              <span class="tag">Global</span>
+            </div>
+
+            <div class="api-kpis">
+              <div class="kpi">
+                <div class="kpi-label">Distance totale</div>
+                <div class="kpi-val"><span id="p_total_distance">--</span> km</div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Durée totale</div>
+                <div class="kpi-val"><span id="p_total_duration">--</span></div>
+              </div>
+              <div class="kpi">
+                <div class="kpi-label">Vitesse max</div>
+                <div class="kpi-val"><span id="p_max_speed">--</span> km/h</div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </section>
+
+    </main>
+
+    <nav class="bottom-nav" aria-label="Navigation principale">
+      <button class="nav-item is-active" data-view="dashboard" id="nav_dashboard" type="button">
+        <span class="nav-ico">🏠</span><span class="nav-txt">Accueil</span>
+      </button>
+      <button class="nav-item" data-view="navigation" id="nav_navigation" type="button">
+        <span class="nav-ico">🧭</span><span class="nav-txt">Navigation</span>
+      </button>
+      <button class="nav-item" data-view="history" id="nav_history" type="button">
+        <span class="nav-ico">🕘</span><span class="nav-txt">Activités</span>
+      </button>
+      <button class="nav-item" data-view="profile" id="nav_profile" type="button">
+        <span class="nav-ico">👤</span><span class="nav-txt">Compte</span>
+      </button>
+    </nav>
+
+    <footer class="footer" style="padding-bottom:64px;">
+      <span>AURA Bike • PFE</span>
+      <span class="sep">•</span>
+      <span id="build_info">Build : --</span>
+    </footer>
+  </div>
+
+  <div class="modal" id="settings_modal" aria-hidden="true">
+    <div class="modal-backdrop" id="settings_backdrop"></div>
+
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="settings_title">
+      <div class="modal-header">
+        <div class="modal-title" id="settings_title">Paramètres</div>
+        <button class="chip" id="btn_close_settings" type="button" title="Fermer">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="card">
+          <div class="card-title">
+            <span>Connexion</span>
+            <span class="tag" id="settings_ble_tag">BLE : --</span>
+          </div>
+
+          <div class="controls">
+            <button class="btn" id="btn_ble_connect_2" type="button"><span>Se connecter</span></button>
+            <button class="btn ghost" id="btn_ble_disconnect_2" type="button"><span>Déconnecter</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</body>
+
+</html>

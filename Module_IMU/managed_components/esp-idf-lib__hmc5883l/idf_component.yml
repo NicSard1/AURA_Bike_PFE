@@ -1,0 +1,32 @@
+dependencies:
+  esp-idf-lib/esp_idf_lib_helpers:
+    version: '*'
+  esp-idf-lib/i2cdev:
+    version: '*'
+description: Driver for 3-axis digital compass HMC5883L and HMC5983L
+discussion: https://github.com/esp-idf-lib/core/discussions
+documentation: https://esp-idf-lib.github.io/hmc5883l/
+files:
+  exclude:
+  - docs/**/*
+issues: https://github.com/esp-idf-lib/hmc5883l/issues
+license: BSD-3
+maintainers:
+- Ruslan V. Uss (@UncleRus) <unclerus@gmail.com>
+repository: git://github.com/esp-idf-lib/hmc5883l.git
+repository_info:
+  commit_sha: 1434f2c0dd06dca8618b72c6e5dfeb164bc7a80c
+  path: .
+targets:
+- esp32
+- esp32c2
+- esp32c3
+- esp32c5
+- esp32c6
+- esp32c61
+- esp32h2
+- esp32p4
+- esp32s2
+- esp32s3
+url: https://github.com/esp-idf-lib/core
+version: 1.0.7

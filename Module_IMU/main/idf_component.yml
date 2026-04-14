@@ -1,0 +1,10 @@
+version: 1.0.0
+description: GY-86 sensor demo using MPU6050, HMC5883L, and MS5611 with ESP-IDF
+dependencies:
+  esp-idf-lib/mpu6050: '*'
+  esp-idf-lib/ms5611: '*'
+  esp-idf-lib/hmc5883l: '*'
+  esp-idf-lib/esp_idf_lib_helpers: ==1.3.10
+  esp-idf-lib/i2cdev: ==2.0.8
+  espressif/esp_lcd_ili9341: ^2.0.0
+  lvgl/lvgl: ^9.2.2
