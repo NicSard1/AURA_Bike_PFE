@@ -80,6 +80,40 @@ Multi-node architecture allows load distribution and real-time processing.
 
 ---
 
+## 📸 Prototype Photos
+
+### Functional Prototype
+<p align="center">
+  <img src="./assets/prototype_full_setup.jpg" alt="AURA Bike full prototype" width="700"/>
+</p>
+
+### Smart Handlebar
+<p align="center">
+  <img src="./assets/handlebar_front.jpg" alt="AURA Bike smart handlebar front view" width="700"/>
+</p>
+
+<p align="center">
+  <img src="./assets/handlebar_front_studio.jpg" alt="AURA Bike smart handlebar studio front view" width="700"/>
+</p>
+
+<p align="center">
+  <img src="./assets/handlebar_top.jpg" alt="AURA Bike smart handlebar top view" width="700"/>
+</p>
+
+### Rear Perception Module
+<p align="center">
+  <img src="./assets/rear_module.jpg" alt="AURA Bike rear perception module" width="350"/>
+</p>
+
+### Mobile Application
+<p align="center">
+  <img src="./assets/app_home.png" alt="AURA Bike mobile app home screen" width="250"/>
+  <img src="./assets/app_navigation.png" alt="AURA Bike mobile app navigation screen" width="250"/>
+  <img src="./assets/app_activities.png" alt="AURA Bike mobile app activities screen" width="250"/>
+</p>
+
+---
+
 ## 🧩 Hardware Components
 
 | Component | Role |
@@ -215,7 +249,7 @@ The system interacts with a mobile app for:
 ## 👨‍💻 Authors
 
 - Sandric Bretecher : Embedded Systems / R&D Electronics Engineer (LinkedIn : https://www.linkedin.com/in/sandric-b-763a65197/)
-- Clément Chanvalon : R&D Engineer, Battery Architecture and Power Electronics (https://www.linkedin.com/in/clement-chanvalon/)
+- Clément Chanvalon : R&D Engineer, Battery Architecture and Power Electronics (LinkedIn : https://www.linkedin.com/in/clement-chanvalon/)
 - Line Hoffmeyer-Kuntz : Hardware & Software Engineer (LinkedIn : https://www.linkedin.com/in/line-hoffmeyer-kuntz-563905222/)
 
 ---
@@ -228,4 +262,4 @@ Academic project — usage may be restricted.
 
 ## ⭐ Project Context
 
-Final-year engineering project in **Embedded Systems & Intelligent Transport**.
+Final-year engineering project at **ESME** in **Embedded Systems & Intelligent Transport**.
