@@ -163,7 +163,7 @@ LiDAR → ESP32-CAM → Distance
 
 ---
 
-## 🧪 Embedded Processing
+## ⚙️ Embedded Processing
 
 ### Sensor Fusion
 - IMU + GNSS fusion
@@ -183,7 +183,7 @@ LiDAR → ESP32-CAM → Distance
 
 ---
 
-## 🧵 Software Architecture
+## 🖥️ Software Architecture
 
 Built using:
 - **C**
