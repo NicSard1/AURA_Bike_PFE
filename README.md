@@ -215,7 +215,7 @@ The system interacts with a mobile app for:
 ## 👨‍💻 Authors
 
 - Sandric Bretecher : Embedded Systems / R&D Electronics Engineer (LinkedIn : https://www.linkedin.com/in/sandric-b-763a65197/)
-- Clément Chanvalon : R&D Engineer, Battery Architecture and Power Electronics (https://www.linkedin.com/in/clement-chanvalon/)
+- Clément Chanvalon : R&D Engineer, Battery Architecture and Power Electronics (LinkedIn : https://www.linkedin.com/in/clement-chanvalon/)
 - Line Hoffmeyer-Kuntz : Hardware & Software Engineer (LinkedIn : https://www.linkedin.com/in/line-hoffmeyer-kuntz-563905222/)
 
 ---
